@@ -1,0 +1,43 @@
+﻿@model Glostest.ViewModels.SynonymsView
+
+@{
+    ViewBag.Title = "CreateSynonyms";
+}
+
+<h2>CreateSynonyms</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+@foreach (var wordPair in Model.WordPairs) {
+<tr>
+
+    @foreach (var language in wordPair.WordLanguageList)
+    {
+    <td>
+        @Html.DisplayFor(modelItem => language.Language.Name)
+    </td>
+    <td>
+        @foreach (var word in language.Words)
+        {
+            @Html.DisplayFor(modelItem => word.Text) 
+            @Html.Raw("&nbsp;")
+        }
+        </td>
+    <td>
+        @using (Html.BeginForm("NewWord", "Synonyms"))
+        {
+            @Html.HiddenFor(wp => wordPair.Id)
+            @Html.Hidden("LanguageId", language.Language.Id)
+            @Html.EditorFor(wp => wordPair.NewWordText)
+        <input type="submit" value="Lägg till " class="btn btn-default" />
+        }
+    </td>
+    }
+        
+    
+    </tr>
+}
+
+</table>
