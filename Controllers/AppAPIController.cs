@@ -47,7 +47,41 @@ namespace Glostest.Controllers
             CleanForPresentation(wordList);
             return wordList;
         }
+        [Route("api/wordtestcomplex")]
+        public List<WordPairComplexDTO> GetWordtestComplex(string languageCode1, string languageCode2)
+        {
+            List<WordPairComplexDTO> wordList = new List<WordPairComplexDTO>();
+            SynonymsView viewModel = new SynonymsView();
+            viewModel.FillViewModel();
 
+            foreach (var viewModelSynonym in viewModel.SortedSynonyms)
+            {
+                if (ShouldBeIncluded(viewModelSynonym, languageCode1, languageCode2))
+                {
+                    WordPairComplexDTO synonym = new WordPairComplexDTO { Id = viewModelSynonym.Id };
+                    wordList.Add(synonym);
+                    foreach (var list in viewModelSynonym.SortedWordList)
+                    {
+                        if (list.Value.Language.Code == languageCode1)
+                        {
+                            foreach (var word in list.Value.Words)
+                            {
+                                synonym.Word1.Add(new WordDTO { Id = word.Id, Language = word.Language.Name, LanguageId = word.LanguageId, Text = word.Text });
+                            }
+                        }
+                        else if (list.Value.Language.Code == languageCode2)
+                        {
+                            foreach (var word in list.Value.Words)
+                            {
+                                synonym.Word2.Add(new WordDTO { Id = word.Id, Language = word.Language.Name, LanguageId = word.LanguageId, Text = word.Text });
+                            }
+                        }
+                    }
+                }
+            }
+            //CleanForPresentation(wordList);
+            return wordList;
+        }
         //Vi behöver ha ord på varje språk som vi ska göra prov på
         private bool ShouldBeIncluded(SortedSynonym synonym, string languageCode1, string languageCode2)
         {
