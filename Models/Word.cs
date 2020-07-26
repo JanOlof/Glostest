@@ -13,7 +13,6 @@ namespace Glostest
         public Word()
         {
             Synonyms = new HashSet<Synonyms>();
-            WordGroup = new HashSet<WordGroup>();
         }
 
         public int Id { get; set; }
@@ -28,8 +27,5 @@ namespace Glostest
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Synonyms> Synonyms { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WordGroup> WordGroup { get; set; }
     }
 }

@@ -16,6 +16,7 @@ namespace Glostest
         public virtual DbSet<Synonyms> Synonyms { get; set; }
         public virtual DbSet<Word> Word { get; set; }
         public virtual DbSet<WordGroup> WordGroup { get; set; }
+        public virtual DbSet<WordGroupSynonym> WordGroupSynonym { get; set; }
         public virtual DbSet<WordTest> WordTest { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -42,14 +43,14 @@ namespace Glostest
                 .WithRequired(e => e.Word)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Word>()
-                .HasMany(e => e.WordGroup)
-                .WithMany(e => e.Word)
-                .Map(m => m.ToTable("WordGroupWord").MapLeftKey("WordId").MapRightKey("WordGroupId"));
-
             modelBuilder.Entity<WordGroup>()
                 .Property(e => e.Description)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<WordGroup>()
+                .HasMany(e => e.WordGroupSynonym)
+                .WithRequired(e => e.WordGroup)
+                .WillCascadeOnDelete(false);
         }
     }
 }

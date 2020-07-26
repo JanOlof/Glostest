@@ -194,6 +194,7 @@
     <Compile Include="ViewModels\SynonymsView.cs" />
     <Compile Include="Models\Word.cs" />
     <Compile Include="Models\WordGroup.cs" />
+    <Compile Include="Models\WordGroupSynonym.cs" />
     <Compile Include="Models\WordModel.cs" />
     <Compile Include="Models\WordTest.cs" />
   </ItemGroup>
