@@ -6,18 +6,22 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace Glostest.Controllers
 {
+    //http://www.c-sharpcorner.com/article/enable-cors-in-asp-net-webapi-2/
+    //Install-Package Microsoft.AspNet.WebApi.Cors
+    [EnableCors(origins: "*", headers: "*", methods: "*")] //[EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class AppAPIController : ApiController
     {
         private WordModel db = new WordModel();
         [Route("api/wordtest")]
-        public List<WordPairDTO> GetWordtest(string languageCode1, string languageCode2)
+        public List<WordPairDTO> GetWordtest(int wordGroupId, string languageCode1, string languageCode2)
         {
             List<WordPairDTO> wordList = new List<WordPairDTO>();
             SynonymsView viewModel = new SynonymsView();
-            viewModel.FillViewModel();
+            viewModel.FillViewModel(wordGroupId);
 
             foreach (var viewModelSynonym in viewModel.SortedSynonyms)
             {
@@ -48,11 +52,11 @@ namespace Glostest.Controllers
             return wordList;
         }
         [Route("api/wordtestcomplex")]
-        public List<WordPairComplexDTO> GetWordtestComplex(string languageCode1, string languageCode2)
+        public List<WordPairComplexDTO> GetWordtestComplex(int wordGroupId, string languageCode1, string languageCode2)
         {
             List<WordPairComplexDTO> wordList = new List<WordPairComplexDTO>();
             SynonymsView viewModel = new SynonymsView();
-            viewModel.FillViewModel();
+            viewModel.FillViewModel(wordGroupId);
 
             foreach (var viewModelSynonym in viewModel.SortedSynonyms)
             {
@@ -79,11 +83,23 @@ namespace Glostest.Controllers
                     }
                 }
             }
-            //CleanForPresentation(wordList);
-            return wordList;
+             return wordList;
         }
-        //Vi behöver ha ord på varje språk som vi ska göra prov på
-        private bool ShouldBeIncluded(SortedSynonym synonym, string languageCode1, string languageCode2)
+
+        [Route("api/wordgroups")]
+        public List<WordGroupDTO> GetWordGroups()
+        {
+            var dbWordGroupList = db.WordGroup;
+            List<WordGroupDTO>wordGroupDTOList = new List<WordGroupDTO>();
+            foreach (var item in dbWordGroupList)
+            {
+                wordGroupDTOList.Add(new WordGroupDTO { Id = item.Id, Description = item.Description });
+            }
+            return wordGroupDTOList;
+        }
+
+            //Vi behöver ha ord på varje språk som vi ska göra prov på
+            private bool ShouldBeIncluded(SortedSynonym synonym, string languageCode1, string languageCode2)
         {
             bool languageCode1Exists = false;
             bool languageCode2Exists = false;

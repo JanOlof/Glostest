@@ -23,7 +23,7 @@ namespace Glostest.Controllers
         {
             List<SynonymsDTO> synonymsList = new List<SynonymsDTO>();
             SynonymsView viewModel = new SynonymsView(); 
-            viewModel.FillViewModel();
+            viewModel.FillViewModel(1); //ToDo ta bort eller fundera om controllern ska vara kvar
 
             foreach (var viewModelSynonym in viewModel.SortedSynonyms)
             {

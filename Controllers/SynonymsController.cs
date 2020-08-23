@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Glostest;
 using Glostest.ViewModels;
 using WebGrease.Css.Extensions;
@@ -16,10 +17,14 @@ namespace Glostest.Controllers
     {
         private WordModel db = new WordModel();
 
-        public ActionResult Index()
+        public ActionResult Index(int wordGroupId = 0)
         {
+            if (wordGroupId == 0)
+                return RedirectToAction("Index", "WordGroups");
+
+            Session["WordGroupId"] = wordGroupId;
             SynonymsView viewModel = new SynonymsView();//FillViewModel();
-            viewModel.FillViewModel();
+            viewModel.FillViewModel(wordGroupId);
             ViewBag.LanguageId = new SelectList(db.Language, "Id", "Name");
           
             return View(viewModel);
@@ -55,6 +60,10 @@ namespace Glostest.Controllers
 
         public ActionResult NewWord(SynonymsView synonymsView, int LanguageId, int SynonymId)
         {
+            int wordGroupId = 0;
+            if (!int.TryParse(Session["WordGroupId"].ToString(), out wordGroupId))
+                throw new Exception("Hittar inget grupp Id och kan inte spara ny synonym i gruppen");
+
             Word word = new Word();
             word.LanguageId = LanguageId;
             word.Text = synonymsView.NewWordText;
@@ -62,8 +71,12 @@ namespace Glostest.Controllers
             db.SaveChanges();
             Synonyms synonym = null;
             synonym = new Synonyms();
-            if (SynonymId == 0)
+            if (SynonymId == 0) //Vi lägger till en helt ny grupp synonymer
+            { 
                 synonym.SynonymId = GetNewSynonymsId();
+                db.WordGroupSynonym.Add(new WordGroupSynonym { SynonymId = synonym.SynonymId, WordGroupId = wordGroupId });
+                    db.SaveChanges();
+            }
             else
                 synonym.SynonymId = SynonymId;
 
@@ -71,7 +84,10 @@ namespace Glostest.Controllers
             db.Synonyms.Add(synonym);
             db.SaveChanges();
 
-            return RedirectToAction("Index");
+            var routeValuesNewQuestion = new RouteValueDictionary();
+            routeValuesNewQuestion.Add("wordGroupId", wordGroupId.ToString());
+            return RedirectToAction("Index", routeValuesNewQuestion);
+
         }
 
         // GET: Synonyms
@@ -193,18 +209,31 @@ namespace Glostest.Controllers
         // GET: Synonyms/Delete/5
         public ActionResult Delete(int wordId, int synonymId)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
             var synonym = db.Synonyms.Where(s => s.WordId == wordId && s.SynonymId == synonymId).FirstOrDefault();
             db.Synonyms.Remove(synonym);
             db.SaveChanges();
             Word word = db.Word.Find(wordId);
             db.Word.Remove(word);
             db.SaveChanges();
+            var count = db.Synonyms.Where(s => s.SynonymId == synonymId).Count();
+            //Ta bort från tabellen WordGroupSynonym om det inte finns några ord kvar
+            if (count == 0)
+            {
+                var wordGroupSynonym = db.WordGroupSynonym.Where(s => s.SynonymId == synonymId);
+                foreach (var item in wordGroupSynonym)
+                {
+                    db.WordGroupSynonym.Remove(item);
+                }
+                db.SaveChanges();
+            }
 
-            return RedirectToAction("Index");
+            int wordGroupId = 0;
+            if (!int.TryParse(Session["WordGroupId"].ToString(), out wordGroupId))
+                throw new Exception("Hittar inget grupp Id och kan inte spara ny synonym i gruppen");
+
+            var routeValuesNewQuestion = new RouteValueDictionary();
+            routeValuesNewQuestion.Add("wordGroupId", wordGroupId.ToString());
+            return RedirectToAction("Index", routeValuesNewQuestion);
         }
 
         // POST: Synonyms/Delete/5

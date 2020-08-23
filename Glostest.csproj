@@ -182,6 +182,7 @@
     <Compile Include="Models\Language.cs" />
     <Compile Include="Models\SynonymsDTO.cs" />
     <Compile Include="Models\WordDTO.cs" />
+    <Compile Include="Models\WordGroupDTO.cs" />
     <Compile Include="Models\WordListByLanguageDTO.cs" />
     <Compile Include="Models\WordPairComplexDTO.cs" />
     <Compile Include="Models\WordPairDTO.cs" />
