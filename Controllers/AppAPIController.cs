@@ -91,7 +91,7 @@ namespace Glostest.Controllers
         {
             var dbWordGroupList = db.WordGroup;
             List<WordGroupDTO>wordGroupDTOList = new List<WordGroupDTO>();
-            foreach (var item in dbWordGroupList)
+            foreach (var item in dbWordGroupList.OrderBy(d => d.Description))
             {
                 wordGroupDTOList.Add(new WordGroupDTO { Id = item.Id, Description = item.Description });
             }
