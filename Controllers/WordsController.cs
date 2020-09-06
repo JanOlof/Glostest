@@ -10,6 +10,7 @@ using Glostest;
 
 namespace Glostest.Controllers
 {
+    [Authorize]
     public class WordsController : Controller
     {
         private WordModel db = new WordModel();

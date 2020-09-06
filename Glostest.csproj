@@ -173,6 +173,7 @@
     <Compile Include="Controllers\LanguagesController.cs" />
     <Compile Include="Controllers\SynonymsAPIController.cs" />
     <Compile Include="Controllers\SynonymsController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WordGroupsController.cs" />
     <Compile Include="Controllers\WordsAPIController.cs" />
     <Compile Include="Controllers\WordsController.cs" />
@@ -181,6 +182,7 @@
     </Compile>
     <Compile Include="Models\Language.cs" />
     <Compile Include="Models\SynonymsDTO.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Models\WordDTO.cs" />
     <Compile Include="Models\WordGroupDTO.cs" />
     <Compile Include="Models\WordListByLanguageDTO.cs" />
@@ -213,6 +215,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\books.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -275,6 +278,7 @@
     <Content Include="Views\Words\Details.cshtml" />
     <Content Include="Views\Words\Edit.cshtml" />
     <Content Include="Views\Words\Index.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -13,6 +13,7 @@ using WebGrease.Css.Extensions;
 
 namespace Glostest.Controllers
 {
+    [Authorize]
     public class SynonymsController : Controller
     {
         private WordModel db = new WordModel();

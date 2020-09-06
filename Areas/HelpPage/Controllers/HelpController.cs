@@ -4,8 +4,10 @@ using System.Web.Mvc;
 using Glostest.Areas.HelpPage.ModelDescriptions;
 using Glostest.Areas.HelpPage.Models;
 
+
 namespace Glostest.Areas.HelpPage.Controllers
 {
+    [System.Web.Mvc.Authorize]
     /// <summary>
     /// The controller that will handle requests for the help page.
     /// </summary>
