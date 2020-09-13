@@ -14,11 +14,11 @@ namespace Glostest
 
         public virtual DbSet<Language> Language { get; set; }
         public virtual DbSet<Synonyms> Synonyms { get; set; }
-        public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Word> Word { get; set; }
         public virtual DbSet<WordGroup> WordGroup { get; set; }
         public virtual DbSet<WordGroupSynonym> WordGroupSynonym { get; set; }
         public virtual DbSet<WordTest> WordTest { get; set; }
+        public virtual DbSet<User> User { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -33,11 +33,6 @@ namespace Glostest
             modelBuilder.Entity<Language>()
                 .HasMany(e => e.Word)
                 .WithRequired(e => e.Language)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<User>()
-                .HasMany(e => e.WordGroup)
-                .WithRequired(e => e.User)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Word>()

@@ -10,11 +10,14 @@ namespace Glostest.ViewModels
         public List<SortedSynonym> SortedSynonyms { get; set; } = new List<SortedSynonym>();
         public string NewWordText { get; set; }
         public int NumberOfLanguages { get; set; }
+        public string WordGroupName { get; set; }
         public void FillViewModel(int wordGroupId)
         {
+           
             List<Language> languageCountList = new List<Language>(); //För att räkna hur många språk som finns totalt och skapa kolumner i vyn
             using (WordModel db = new WordModel())
             {
+                this.WordGroupName = db.WordGroup.Find(wordGroupId).Description;
                 var dbSynonymList = db.Synonyms.OrderBy(i => i.SynonymId);
 
                 //Hämtar en lista med id för alla synonymer som har sökt WordGroupId (borde man kanske kunna modellerat bättre...)

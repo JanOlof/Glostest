@@ -18,7 +18,7 @@ namespace Glostest.Controllers
         // GET: WordGroups
         public ActionResult Index()
         {
-            return View(db.WordGroup.ToList());
+            return View(db.WordGroup.OrderBy(d => d.Description).ToList());
         }
 
         // GET: WordGroups/Details/5
@@ -49,8 +49,10 @@ namespace Glostest.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Description")] WordGroup wordGroup)
         {
+            //Obs hårdkodat UserId!!
             if (ModelState.IsValid)
             {
+                wordGroup.UserId = db.User.FirstOrDefault().Id; //Obs hårdkodat UserId!!
                 db.WordGroup.Add(wordGroup);
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -15,7 +15,7 @@ namespace Glostest.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Index(Models.User inloggning)
+        public ActionResult Index(User inloggning)
         {
             if (inloggning.Username == null || inloggning.Password == null)
             {

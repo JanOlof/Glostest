@@ -6,29 +6,26 @@ namespace Glostest
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("User")]
-    public partial class User
+    [Table("Word")]
+    public partial class Word
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
+        public Word()
         {
-            WordGroup = new HashSet<WordGroup>();
+            Synonyms = new HashSet<Synonyms>();
         }
 
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50)]
-        public string Username { get; set; }
+        [StringLength(150)]
+        public string Text { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string Password { get; set; }
+        public int LanguageId { get; set; }
 
-        [StringLength(50)]
-        public string Name { get; set; }
+        public virtual Language Language { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WordGroup> WordGroup { get; set; }
+        public virtual ICollection<Synonyms> Synonyms { get; set; }
     }
 }
