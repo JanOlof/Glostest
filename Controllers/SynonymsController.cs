@@ -30,7 +30,18 @@ namespace Glostest.Controllers
           
             return View(viewModel);
         }
+        public ActionResult Index2(int wordGroupId = 1)
+        {
+            if (wordGroupId == 0)
+                return RedirectToAction("Index", "WordGroups");
 
+            Session["WordGroupId"] = wordGroupId;
+            SynonymsView viewModel = new SynonymsView();//FillViewModel();
+            viewModel.FillViewModel(wordGroupId);
+            ViewBag.LanguageId = new SelectList(db.Language, "Id", "Name");
+
+            return View(viewModel);
+        }
         //private SynonymsView FillViewModel()
         //{
         //    SynonymsView viewModel = new SynonymsView();

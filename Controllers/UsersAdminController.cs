@@ -11,121 +11,138 @@ using Glostest;
 namespace Glostest.Controllers
 {
     [Authorize]
-    public class WordGroupsController : Controller
+    public class UsersAdminController : Controller
     {
         private WordModel db = new WordModel();
 
-        // GET: WordGroups
+        // GET: UsersAdmin
         public ActionResult Index()
-        {
-            int userId = 0;
-            if (Session["UserId"] != null)
-                userId = int.Parse(Session["UserId"].ToString()); 
-
-            return View(db.WordGroup.Where(u => u.UserId == userId).OrderBy(d => d.Description).ToList());
+        {   
+            if(CheckAdminUser())
+                return View(db.User.ToList());
+            else
+                return RedirectToAction("Index", "Home");
         }
 
-        // GET: WordGroups/Details/5
+        // GET: UsersAdmin/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WordGroup wordGroup = db.WordGroup.Find(id);
-            if (wordGroup == null)
+            User user = db.User.Find(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(wordGroup);
+
+            if (CheckAdminUser())
+                return View(user);
+            else
+                return RedirectToAction("Index", "Home");
         }
 
-        // GET: WordGroups/Create
+        // GET: UsersAdmin/Create
         public ActionResult Create()
         {
-            return View();
+            if (CheckAdminUser())
+                return View();
+            else
+                return RedirectToAction("Index", "Home");
         }
 
-        // POST: WordGroups/Create
+        // POST: UsersAdmin/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Description")] WordGroup wordGroup)
+        public ActionResult Create([Bind(Include = "Id,Username,Password,Name")] User user)
         {
-            //Obs hårdkodat UserId!!
             if (ModelState.IsValid)
             {
-                int userId = 0;
-                if (Session["UserId"] != null)
-                    userId = int.Parse(Session["UserId"].ToString());
-                else
-                    return HttpNotFound("Error UserId for creator not found");
-
-                wordGroup.UserId = userId;
-                db.WordGroup.Add(wordGroup);
+                db.User.Add(user);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(wordGroup);
+            if (CheckAdminUser())
+                return View(user);
+            else
+                return RedirectToAction("Index", "Home");
         }
 
-        // GET: WordGroups/Edit/5
+        // GET: UsersAdmin/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WordGroup wordGroup = db.WordGroup.Find(id);
-            if (wordGroup == null)
+            User user = db.User.Find(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(wordGroup);
+            if (CheckAdminUser())
+                return View(user);
+            else
+                return RedirectToAction("Index", "Home");
         }
 
-        // POST: WordGroups/Edit/5
+        // POST: UsersAdmin/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Description")] WordGroup wordGroup)
+        public ActionResult Edit([Bind(Include = "Id,Username,Password,Name")] User user)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(wordGroup).State = EntityState.Modified;
+                db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(wordGroup);
+            if (CheckAdminUser())
+                return View(user);
+            else
+                return RedirectToAction("Index", "Home");
         }
 
-        // GET: WordGroups/Delete/5
+        // GET: UsersAdmin/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WordGroup wordGroup = db.WordGroup.Find(id);
-            if (wordGroup == null)
+            User user = db.User.Find(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(wordGroup);
+            if (CheckAdminUser())
+                return View(user);
+            else
+                return RedirectToAction("Index", "Home");
         }
 
-        // POST: WordGroups/Delete/5
+        // POST: UsersAdmin/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            WordGroup wordGroup = db.WordGroup.Find(id);
-            db.WordGroup.Remove(wordGroup);
+            User user = db.User.Find(id);
+            db.User.Remove(user);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+        private bool CheckAdminUser() 
+        { 
+             if (System.Web.HttpContext.Current.User.Identity.Name.ToUpper() == "ADMIN")
+                return true;
+            else
+                return false;
         }
 
         protected override void Dispose(bool disposing)

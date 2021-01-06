@@ -26,10 +26,24 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
 
-                    <li>
-                        @Html.ActionLink("Logga ut", "LogOut", "User", new { area = "" }, null)
-                    </li>
-                </ul>
+
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>
+                            @Html.ActionLink("User admin", "Index", "UsersAdmin", new { area = "" }, null)
+                        </li>
+                        <li>
+                            @Html.ActionLink("Logga ut", "LogOut", "User", new { area = "" }, null)
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            @Html.ActionLink("Logga in", "Index", "User", new { area = "" }, null)
+                        </li>
+                   }
+
+                    </ul>
             </div>
         </div>
     </div>
