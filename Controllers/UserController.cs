@@ -39,7 +39,7 @@ namespace Glostest.Controllers
         {
             var dbUser = db.User.Where(u => u.Username == user.Username && u.Password == user.Password).FirstOrDefault();
 
-            if (db.User != null)
+            if (dbUser != null)
             {
                 Session["UserId"] = dbUser.Id;
                 return true;

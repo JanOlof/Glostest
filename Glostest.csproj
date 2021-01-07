@@ -177,13 +177,13 @@
     <Compile Include="Controllers\UsersAdminController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\WordGroupsController.cs" />
-    <Compile Include="Controllers\WordsAPIController.cs" />
     <Compile Include="Controllers\WordsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Language.cs" />
     <Compile Include="Models\SynonymsDTO.cs" />
+    <Compile Include="Models\UserDTO.cs" />
     <Compile Include="Models\WordDTO.cs" />
     <Compile Include="Models\WordGroupDTO.cs" />
     <Compile Include="Models\WordListByLanguageDTO.cs" />

@@ -16,139 +16,139 @@ namespace Glostest.Controllers
 {
     public class SynonymsAPIController : ApiController
     {
-        private WordModel db = new WordModel();
+        //private WordModel db = new WordModel();
 
-        // GET: api/SynonymsAPI
-        public List<SynonymsDTO> GetSynonyms()
-        {
-            List<SynonymsDTO> synonymsList = new List<SynonymsDTO>();
-            SynonymsView viewModel = new SynonymsView(); 
-            viewModel.FillViewModel(1); //ToDo ta bort eller fundera om controllern ska vara kvar
+        //// GET: api/SynonymsAPI
+        //public List<SynonymsDTO> GetSynonyms()
+        //{
+        //    List<SynonymsDTO> synonymsList = new List<SynonymsDTO>();
+        //    SynonymsView viewModel = new SynonymsView(); 
+        //    viewModel.FillViewModel(1); //ToDo ta bort eller fundera om controllern ska vara kvar
 
-            foreach (var viewModelSynonym in viewModel.SortedSynonyms)
-            {
-                SynonymsDTO synonym = new SynonymsDTO {Id = viewModelSynonym.Id};
-                synonymsList.Add(synonym);
-                foreach (var list in viewModelSynonym.SortedWordList)
-                {
-                    WordListByLanguageDTO wordList = new WordListByLanguageDTO { Language = list.Value.Language.Name };
-                    foreach (var word in list.Value.Words)
-                    {
-                        WordDTO wordDTO = new WordDTO { Id = word.Id, Text = word.Text, Language = word.Language.Name, LanguageId = word.LanguageId };
-                        wordList.Words.Add(wordDTO);
-                    }
-                    synonym.WordList.Add(wordList);
-                }
-            }
-            return synonymsList;
-        }
+        //    foreach (var viewModelSynonym in viewModel.SortedSynonyms)
+        //    {
+        //        SynonymsDTO synonym = new SynonymsDTO {Id = viewModelSynonym.Id};
+        //        synonymsList.Add(synonym);
+        //        foreach (var list in viewModelSynonym.SortedWordList)
+        //        {
+        //            WordListByLanguageDTO wordList = new WordListByLanguageDTO { Language = list.Value.Language.Name };
+        //            foreach (var word in list.Value.Words)
+        //            {
+        //                WordDTO wordDTO = new WordDTO { Id = word.Id, Text = word.Text, Language = word.Language.Name, LanguageId = word.LanguageId };
+        //                wordList.Words.Add(wordDTO);
+        //            }
+        //            synonym.WordList.Add(wordList);
+        //        }
+        //    }
+        //    return synonymsList;
+        //}
 
-        // GET: api/SynonymsAPI/5
-        [ResponseType(typeof(Synonyms))]
-        public IHttpActionResult GetSynonyms(int id)
-        {
-            Synonyms synonyms = db.Synonyms.Find(id);
-            if (synonyms == null)
-            {
-                return NotFound();
-            }
+        //// GET: api/SynonymsAPI/5
+        //[ResponseType(typeof(Synonyms))]
+        //public IHttpActionResult GetSynonyms(int id)
+        //{
+        //    Synonyms synonyms = db.Synonyms.Find(id);
+        //    if (synonyms == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return Ok(synonyms);
-        }
+        //    return Ok(synonyms);
+        //}
 
-        // PUT: api/SynonymsAPI/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutSynonyms(int id, Synonyms synonyms)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //// PUT: api/SynonymsAPI/5
+        //[ResponseType(typeof(void))]
+        //public IHttpActionResult PutSynonyms(int id, Synonyms synonyms)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            if (id != synonyms.SynonymId)
-            {
-                return BadRequest();
-            }
+        //    if (id != synonyms.SynonymId)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            db.Entry(synonyms).State = EntityState.Modified;
+        //    db.Entry(synonyms).State = EntityState.Modified;
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SynonymsExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        db.SaveChanges();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!SynonymsExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return StatusCode(HttpStatusCode.NoContent);
-        }
+        //    return StatusCode(HttpStatusCode.NoContent);
+        //}
 
-        // POST: api/SynonymsAPI
-        [ResponseType(typeof(Synonyms))]
-        public IHttpActionResult PostSynonyms(Synonyms synonyms)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //// POST: api/SynonymsAPI
+        //[ResponseType(typeof(Synonyms))]
+        //public IHttpActionResult PostSynonyms(Synonyms synonyms)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            db.Synonyms.Add(synonyms);
+        //    db.Synonyms.Add(synonyms);
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (SynonymsExists(synonyms.SynonymId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        db.SaveChanges();
+        //    }
+        //    catch (DbUpdateException)
+        //    {
+        //        if (SynonymsExists(synonyms.SynonymId))
+        //        {
+        //            return Conflict();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return CreatedAtRoute("DefaultApi", new { id = synonyms.SynonymId }, synonyms);
-        }
+        //    return CreatedAtRoute("DefaultApi", new { id = synonyms.SynonymId }, synonyms);
+        //}
 
-        // DELETE: api/SynonymsAPI/5
-        [ResponseType(typeof(Synonyms))]
-        public IHttpActionResult DeleteSynonyms(int id)
-        {
-            Synonyms synonyms = db.Synonyms.Find(id);
-            if (synonyms == null)
-            {
-                return NotFound();
-            }
+        //// DELETE: api/SynonymsAPI/5
+        //[ResponseType(typeof(Synonyms))]
+        //public IHttpActionResult DeleteSynonyms(int id)
+        //{
+        //    Synonyms synonyms = db.Synonyms.Find(id);
+        //    if (synonyms == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            db.Synonyms.Remove(synonyms);
-            db.SaveChanges();
+        //    db.Synonyms.Remove(synonyms);
+        //    db.SaveChanges();
 
-            return Ok(synonyms);
-        }
+        //    return Ok(synonyms);
+        //}
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
 
-        private bool SynonymsExists(int id)
-        {
-            return db.Synonyms.Count(e => e.SynonymId == id) > 0;
-        }
+        //private bool SynonymsExists(int id)
+        //{
+        //    return db.Synonyms.Count(e => e.SynonymId == id) > 0;
+        //}
     }
 }
