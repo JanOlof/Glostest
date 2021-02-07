@@ -175,7 +175,6 @@
     <Compile Include="Controllers\SynonymsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\WordGroupsController.cs" />
     <Compile Include="Controllers\WordsController.cs" />
     <Compile Include="Global.asax.cs">

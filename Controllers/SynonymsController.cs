@@ -30,46 +30,7 @@ namespace Glostest.Controllers
           
             return View(viewModel);
         }
-        public ActionResult Index2(int wordGroupId = 1)
-        {
-            if (wordGroupId == 0)
-                return RedirectToAction("Index", "WordGroups");
-
-            Session["WordGroupId"] = wordGroupId;
-            SynonymsView viewModel = new SynonymsView();//FillViewModel();
-            viewModel.FillViewModel(wordGroupId);
-            ViewBag.LanguageId = new SelectList(db.Language, "Id", "Name");
-
-            return View(viewModel);
-        }
-        //private SynonymsView FillViewModel()
-        //{
-        //    SynonymsView viewModel = new SynonymsView();
-        //    List<Language> languageCountList = new List<Language>(); //För att räkna hur många språk som finns totalt och skapa kolumner i vyn
-
-        //    var dbSynonymList = db.Synonyms.OrderBy(i => i.SynonymId);
-        //    int currentSynonymId = 0;
-        //    SortedSynonym currentSynonym = null;
-
-        //    //Hämta synonymer från db och skapa en synonymlista per unik synonymId uppdelad på språk
-        //    foreach (var synonym in dbSynonymList)
-        //    {
-        //        if (synonym.SynonymId != currentSynonymId)
-        //        {
-        //            currentSynonym = new SortedSynonym();
-        //            viewModel.SortedSynonyms.Add(currentSynonym);
-        //            currentSynonym.Id = synonym.SynonymId;
-        //            currentSynonymId = synonym.SynonymId;
-        //        }
-        //        currentSynonym.AddWord(synonym.Word);
-
-        //        if (!languageCountList.Contains(synonym.Word.Language))
-        //            languageCountList.Add(synonym.Word.Language);
-        //    }
-        //    viewModel.NumberOfLanguages = languageCountList.Count;
-        //    return viewModel;
-        //}
-
+ 
         public ActionResult NewWord(SynonymsView synonymsView, int LanguageId, int SynonymId)
         {
             int wordGroupId = 0;
@@ -247,17 +208,6 @@ namespace Glostest.Controllers
             routeValuesNewQuestion.Add("wordGroupId", wordGroupId.ToString());
             return RedirectToAction("Index", routeValuesNewQuestion);
         }
-
-        // POST: Synonyms/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    Synonyms synonyms = db.Synonyms.Find(id);
-        //    db.Synonyms.Remove(synonyms);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
 
         protected override void Dispose(bool disposing)
         {
