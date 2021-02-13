@@ -170,6 +170,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AppAPIController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ImportController.cs" />
     <Compile Include="Controllers\LanguagesController.cs" />
     <Compile Include="Controllers\SynonymsAPIController.cs" />
     <Compile Include="Controllers\SynonymsController.cs" />
@@ -203,10 +204,6 @@
     <Compile Include="Models\WordTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\GlosDB.mdf" />
-    <Content Include="App_Data\GlosDB_log.ldf">
-      <DependentUpon>GlosDB.mdf</DependentUpon>
-    </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -286,8 +283,11 @@
     <Content Include="Views\UsersAdmin\Details.cshtml" />
     <Content Include="Views\UsersAdmin\Edit.cshtml" />
     <Content Include="Views\UsersAdmin\Index.cshtml" />
+    <Content Include="Views\Import\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
   </ItemGroup>

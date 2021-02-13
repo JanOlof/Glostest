@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Importera glosor";
+}
+
+<h2>Importera glosor</h2>
+<h3>@ViewBag.ImportResult</h3>
+<div>
+    @Html.Label("Format är textfil med ett ord per rad, avgränsa med semikolon")
+    <br />
+    @Html.Label("Fälten som ska vara med: Namn på ordövning;Ny synonym (1=ja,0=samma som raden ovan);Språkkod (SV-SE, FR-FR eller annat språk som finns installerat);Ord")
+    <br />
+    @Html.Label("Rubriker: Ordövning;Ny synonym (1=ja,0=samma som raden ovan);Språkkod (SV-SE, FR-FR eller annat språk som finns installerat);Ord")
+    <br />
+    @Html.Label("Exempel på en rad: TestB;1;SV-SE;Bra")
+    <br />
+    OBS: Första raden läses inte, där kan du har rubriker så att kolumnerna blir rätt.<br />
+</div>
+@using (Html.BeginForm("Index", "Import", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div>
+    <hr />
+    <div class="row">
+        <div class="col-md-pull-2">
+            @Html.Label("Datafil med ord", new { @class = "col-md-2 control-label" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-actions no-color padded">
+                <input type="file" id="wordData" name="upload" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+            <div class="col-md-4">
+                <div class="form-actions no-color padded">
+                    <input type="submit" value="Importera" class="btn btn-default" />
+                </div>
+            </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    </div>
+</div>
+}
+

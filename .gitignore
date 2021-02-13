@@ -338,3 +338,8 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/Doc/export.csv
+*.xlsx
+/Doc/export2.csv
+/Doc/ord1.csv
+/Doc/WordLearn_210213.bak

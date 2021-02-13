@@ -18,12 +18,18 @@ namespace Glostest.Controllers
         // GET: Languages
         public ActionResult Index()
         {
-            return View(db.Language.ToList());
+            if (CheckAdminUser() == false)
+                return RedirectToAction("Index", "Home");
+
+                return View(db.Language.ToList());
         }
 
         // GET: Languages/Details/5
         public ActionResult Details(int? id)
         {
+            if (CheckAdminUser() == false)
+                return RedirectToAction("Index", "Home");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -39,6 +45,9 @@ namespace Glostest.Controllers
         // GET: Languages/Create
         public ActionResult Create()
         {
+            if (CheckAdminUser() == false)
+                return RedirectToAction("Index", "Home");
+
             return View();
         }
 
@@ -49,6 +58,9 @@ namespace Glostest.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Code")] Language language)
         {
+            if (CheckAdminUser() == false)
+                return RedirectToAction("Index", "Home");
+
             if (ModelState.IsValid)
             {
                 db.Language.Add(language);
@@ -62,6 +74,9 @@ namespace Glostest.Controllers
         // GET: Languages/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (CheckAdminUser() == false)
+                return RedirectToAction("Index", "Home");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -81,6 +96,9 @@ namespace Glostest.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,Code")] Language language)
         {
+            if (CheckAdminUser() == false)
+                return RedirectToAction("Index", "Home");
+
             if (ModelState.IsValid)
             {
                 db.Entry(language).State = EntityState.Modified;
@@ -93,6 +111,9 @@ namespace Glostest.Controllers
         // GET: Languages/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (CheckAdminUser() == false)
+                return RedirectToAction("Index", "Home");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -110,12 +131,21 @@ namespace Glostest.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (CheckAdminUser() == false)
+                return RedirectToAction("Index", "Home");
+
             Language language = db.Language.Find(id);
             db.Language.Remove(language);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        private bool CheckAdminUser()
+        {
+            if (System.Web.HttpContext.Current.User.Identity.Name.ToUpper() == "ADMIN")
+                return true;
+            else
+                return false;
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -34,3 +34,8 @@ a.mynav {
     background-color: #F0AD4B !important;
 }
 /* end of green navbar*/
+
+.padded {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
