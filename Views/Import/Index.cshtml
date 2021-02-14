@@ -5,16 +5,19 @@
 <h2>Importera glosor</h2>
 <h3>@ViewBag.ImportResult</h3>
 <div>
-    @Html.Label("Format är textfil med ett ord per rad, avgränsa med semikolon")
-    <br />
-    @Html.Label("Fälten som ska vara med: Namn på ordövning;Ny synonym (1=ja,0=samma som raden ovan);Språkkod (SV-SE, FR-FR eller annat språk som finns installerat);Ord")
-    <br />
-    @Html.Label("Rubriker: Ordövning;Ny synonym (1=ja,0=samma som raden ovan);Språkkod (SV-SE, FR-FR eller annat språk som finns installerat);Ord")
-    <br />
-    @Html.Label("Exempel på en rad: TestB;1;SV-SE;Bra")
-    <br />
-    OBS: Första raden läses inte, där kan du har rubriker så att kolumnerna blir rätt.<br />
-</div>
+    <div>
+        Format är textfil med ett ord per rad, avgränsa med semikolon.
+        Fälten som ska vara med: <br />
+        @Html.Label("Namn på ordövning;Ny synonym (1=ja,0=samma som raden ovan);Språkkod (SV-SE, FR-FR eller annat språk som finns installerat);Ord") 
+       </div>
+        <h4>Exempel på en rad:</h4>
+        @Html.Label("Kapitel 4;1;SV-SE;Bra")
+        <br />
+        <h4>Nästa rad:</h4>
+        @Html.Label("Kapitel 4;0;FR-FR;Bon")
+        <br />
+        OBS: Första raden läses inte, där kan du ha rubriker så att kolumnerna blir rätt.<br />
+    </div>
 @using (Html.BeginForm("Index", "Import", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -28,7 +31,7 @@
     </div>
     <div class="row">
         <div class="col-md-4">
-            <div class="form-actions no-color padded">
+            <div class="form-actions">
                 <input type="file" id="wordData" name="upload" />
             </div>
         </div>

@@ -172,7 +172,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImportController.cs" />
     <Compile Include="Controllers\LanguagesController.cs" />
-    <Compile Include="Controllers\SynonymsAPIController.cs" />
     <Compile Include="Controllers\SynonymsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
@@ -201,7 +200,6 @@
     <Compile Include="Models\WordGroup.cs" />
     <Compile Include="Models\WordGroupSynonym.cs" />
     <Compile Include="Models\WordModel.cs" />
-    <Compile Include="Models\WordTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -260,10 +258,6 @@
     <Content Include="Views\Languages\Details.cshtml" />
     <Content Include="Views\Languages\Edit.cshtml" />
     <Content Include="Views\Languages\Index.cshtml" />
-    <Content Include="Views\Synonyms\Create.cshtml" />
-    <Content Include="Views\Synonyms\Delete.cshtml" />
-    <Content Include="Views\Synonyms\Details.cshtml" />
-    <Content Include="Views\Synonyms\Edit.cshtml" />
     <Content Include="Views\Synonyms\Index.cshtml" />
     <Content Include="Views\Synonyms\CreateSynonyms.cshtml" />
     <Content Include="Views\WordGroups\Create.cshtml" />
@@ -277,7 +271,6 @@
     <Content Include="Views\Words\Edit.cshtml" />
     <Content Include="Views\Words\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\Synonyms\Index2.cshtml" />
     <Content Include="Views\UsersAdmin\Create.cshtml" />
     <Content Include="Views\UsersAdmin\Delete.cshtml" />
     <Content Include="Views\UsersAdmin\Details.cshtml" />

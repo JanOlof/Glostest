@@ -6,7 +6,7 @@ namespace Glostest
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("WordGroupSynonym")]
+    [Table("wordWordGroupSynonym")]
     public partial class WordGroupSynonym
     {
         [Key]

@@ -5,7 +5,10 @@
 }
 
 <h2>Ordlista</h2>
-<h3>Grupp: @Model.WordGroupName</h3>
+<h3>Övning: @Model.WordGroupName</h3>
+<div class="padded">
+    @Html.ActionLink("Tillbaka till listan med övningar", "Index")
+</div>
 
 <table class="table">
     <tr>

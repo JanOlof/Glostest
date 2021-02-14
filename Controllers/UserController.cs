@@ -18,6 +18,7 @@ namespace Glostest.Controllers
         [HttpPost]
         public ActionResult Index(User inloggning)
         {
+            InitFirstTimeUse(); //Lägger till admin användare och språken Franska och Svenska
             if (inloggning.Username == null || inloggning.Password == null)
             {
                 ModelState.AddModelError("", "Du måste fylla i både användarnamn och lösenord");
@@ -33,6 +34,26 @@ namespace Glostest.Controllers
             }
             ModelState.AddModelError("", "Inloggningen ej godkänd");
             return View();
+        }
+
+        private void InitFirstTimeUse()
+        {
+            int rowCount = db.User.Count();
+            if (rowCount == 0)
+            {
+                User user = new User { Username = "Admin", Password = "leguan69" };
+                db.User.Add(user);
+                db.SaveChanges();
+            }
+            rowCount = db.Language.Count();
+            if (rowCount == 0)
+            {
+                Language language1 = new Language {Name = "Svenska", Code = "SV-SE" };
+                db.Language.Add(language1);
+                Language language2 = new Language { Name = "Franska", Code = "FR-FR" };
+                db.Language.Add(language2);
+                db.SaveChanges();
+            }
         }
 
         private bool CheckUser(User user)

@@ -63,79 +63,6 @@ namespace Glostest.Controllers
 
         }
 
-        // GET: Synonyms
-        public ActionResult IndexOld()
-        {
-            var synonyms = db.Synonyms.Include(s => s.Word);
-            return View(synonyms.ToList());
-        }
-
-        // GET: Synonyms/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Synonyms synonyms = db.Synonyms.Find(id);
-            if (synonyms == null)
-            {
-                return HttpNotFound();
-            }
-            return View(synonyms);
-        }
-
-        // GET: Synonyms/Create
-        public ActionResult Create()
-        {
-            //ToDo ta bort hårdkondningen och lagra valt språk i sessionen
-            ViewBag.WordId1 = new SelectList(db.Word , "Id", "Text");
-            ViewBag.WordId2 = new SelectList(db.Word , "Id", "Text");
-            return View();
-        }
-
-        // POST: Synonyms/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(CreateWordPairView newSynonym)
-        {
-            if (ModelState.IsValid)
-            {
-                int sysnomymId1 = 0;
-                Synonyms synonyms1 = null;
-                Synonyms dbSynonymForWord1 = db.Synonyms.Where(w => w.WordId == newSynonym.WordId1).FirstOrDefault();
-                if (dbSynonymForWord1 == null)
-                {
-                    int newId = GetNewSynonymsId();
-                    synonyms1 = new Synonyms {WordId = newSynonym.WordId1, SynonymId = newId };
-                    db.Synonyms.Add(synonyms1);
-                    db.SaveChanges();
-                    sysnomymId1 = synonyms1.SynonymId;
-                }
-                else
-                {
-                    sysnomymId1 = dbSynonymForWord1.SynonymId;
-                }
-                Synonyms dbSynonymForWord2 = db.Synonyms.Where(w => w.WordId == newSynonym.WordId2).FirstOrDefault();
-                
-                if (dbSynonymForWord2 == null) 
-                { 
-                    Synonyms synonyms2 = new Synonyms {SynonymId = sysnomymId1, WordId = newSynonym.WordId2 };
-                    db.Synonyms.Add(synonyms2);
-                    db.SaveChanges();
-                }
-                return RedirectToAction("Index");
-            }
-
-            //ViewBag.WordId = new SelectList(db.Word, "Id", "Text", synonyms.WordId);
-            //ToDo ta bort hårdkondningen och lagra valt språk i sessionen
-            ViewBag.WordId1 = new SelectList(db.Word.Where(m => m.LanguageId == 1), "Id", "Text");
-            ViewBag.WordId2 = new SelectList(db.Word.Where(m => m.LanguageId == 2), "Id", "Text");
-            return View(newSynonym);
-        }
-
         private int GetNewSynonymsId()
         {
             int maxId = 1;
@@ -144,39 +71,6 @@ namespace Glostest.Controllers
                 maxId = db.Synonyms.Max(i => i.SynonymId) + 1;
             
             return maxId;
-        }
-
-        // GET: Synonyms/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Synonyms synonyms = db.Synonyms.Find(id);
-            if (synonyms == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.WordId = new SelectList(db.Word, "Id", "Text", synonyms.WordId);
-            return View(synonyms);
-        }
-
-        // POST: Synonyms/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SynonymId,WordId")] Synonyms synonyms)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(synonyms).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.WordId = new SelectList(db.Word, "Id", "Text", synonyms.WordId);
-            return View(synonyms);
         }
 
         // GET: Synonyms/Delete/5

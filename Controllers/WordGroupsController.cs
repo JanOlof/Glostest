@@ -53,7 +53,6 @@ namespace Glostest.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Description")] WordGroup wordGroup)
         {
-            //Obs hårdkodat UserId!!
             if (ModelState.IsValid)
             {
                 int userId = 0;
@@ -91,7 +90,7 @@ namespace Glostest.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Description")] WordGroup wordGroup)
+        public ActionResult Edit([Bind(Include = "Id,Description,UserId")] WordGroup wordGroup)
         {
             if (ModelState.IsValid)
             {
@@ -123,8 +122,26 @@ namespace Glostest.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             WordGroup wordGroup = db.WordGroup.Find(id);
+            var wordGroupSynonyms = db.WordGroupSynonym.Where(w => w.WordGroupId == wordGroup.Id);
+            List<Synonyms> synonyms = new List<Synonyms>();
+
+
+            foreach (var wordGroupSynonym in wordGroupSynonyms)
+            {
+                synonyms.AddRange(db.Synonyms.Where(s => s.SynonymId == wordGroupSynonym.SynonymId));
+            }
+
+            foreach (var item in synonyms)
+            {
+                db.Word.Remove(db.Word.Find(item.WordId));
+                var dbSynonyms = db.Synonyms.Where(i => i.SynonymId == item.SynonymId);
+                if(dbSynonyms != null)
+                    db.Synonyms.RemoveRange(dbSynonyms);
+            }
+            db.WordGroupSynonym.RemoveRange(wordGroupSynonyms);
             db.WordGroup.Remove(wordGroup);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 

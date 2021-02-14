@@ -52,13 +52,13 @@ namespace Glostest.Controllers
                             {
                                 try
                                 {
-                                    SaveWordData(row, userId);
+                                    if(row.Trim().Length > 0)
+                                        SaveWordData(row, userId);
                                 }
                                 catch (Exception e)
                                 {
-                                    throw new Exception("Rad: " + rowNumber.ToString() + " kunde inte importeras. Importen avbruten. Innehållet i raden: " + row + ". " + e.Message);
+                                    throw new Exception("Rad: " + rowNumber.ToString() + " kunde inte importeras. Importen avbruten. Innehållet i raden: " + row + ". " + e.ToString());
                                 }
-
                             }
                             rowNumber++;
                         }

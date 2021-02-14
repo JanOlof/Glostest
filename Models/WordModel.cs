@@ -18,7 +18,6 @@ namespace Glostest
         public virtual DbSet<Word> Word { get; set; }
         public virtual DbSet<WordGroup> WordGroup { get; set; }
         public virtual DbSet<WordGroupSynonym> WordGroupSynonym { get; set; }
-        public virtual DbSet<WordTest> WordTest { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

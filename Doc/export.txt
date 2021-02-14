@@ -1,0 +1,10 @@
+select wg.Description, s.SynonymId, l.Code, w.Text from dbo.Word as w
+inner join dbo.Language as l
+ON w.LanguageId = l.Id
+inner join dbo.Synonyms s
+on s.WordId = w.Id
+inner join dbo.WordGroupSynonym wsg
+on wsg.SynonymId = s.SynonymId
+inner join dbo.WordGroup wg
+on wg.Id = wsg.WordGroupId
+order by wg.Description, s.SynonymId, l.Code
