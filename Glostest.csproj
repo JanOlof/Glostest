@@ -183,6 +183,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Language.cs" />
+    <Compile Include="Models\LanguageDTO.cs" />
     <Compile Include="Models\SynonymsDTO.cs" />
     <Compile Include="Models\UserDTO.cs" />
     <Compile Include="Models\WordDTO.cs" />

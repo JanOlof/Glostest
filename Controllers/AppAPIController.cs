@@ -58,6 +58,18 @@ namespace Glostest.Controllers
             return wordList;
         }
 
+        [Route("api/allwordtest")]
+        public List<WordPairComplexDTO> GetWordTestsByUser(int userId)
+        {
+            List<WordPairComplexDTO> wordList = new List<WordPairComplexDTO>();
+            foreach (var group in db.WordGroup.Where(g => g.UserId == userId))
+            {
+                var tempWordList = GetWordtest(group.Id);
+                wordList.AddRange(tempWordList);
+            }
+            return wordList;
+        }
+
         //Gamla för webbapp. Ska bort
         [Route("api/wordtestcomplex")]
         public List<WordPairComplexDTO> GetWordtestComplex(int wordGroupId, string languageCode1, string languageCode2)
@@ -105,6 +117,7 @@ namespace Glostest.Controllers
             }
             return wordGroupDTOList;
         }
+
         [Route("api/wordgroupsbyuser")]
         public List<WordGroupDTO> GetWordGroupsByUser(int userId)
         {
@@ -127,6 +140,39 @@ namespace Glostest.Controllers
             }).ToList();
             return users;
         }
+
+        [Route("api/allwords")]
+        public List<WordDTO> GetWords(int userId, string languageCode)
+        {
+            var dbWordGroups = db.WordGroup.Where(u => u.UserId == userId);
+            //Hämta en lista med alla synonymId för en användare            
+            List<int> synonymIds = new List<int>();
+            synonymIds = db.WordGroupSynonym.Where(w => w.WordGroup.UserId == userId).Select(i => i.SynonymId).ToList();
+
+            //Hämta Word som finns i Synonyms där synonym.Id finns i listan ovan och har rätt languageCode. Skapa DTO av dessa            
+            var words = db.Synonyms.Where(s => synonymIds.Contains(s.SynonymId)).Select(w => w.Word).Where(l => l.Language.Code == languageCode).Select(w => new WordDTO
+            {
+                Id = w.Id,
+                Text = w.Text,
+                Language = w.Language.Name,
+                LanguageId = w.LanguageId
+
+            }).ToList();
+            return words;
+        }
+
+        [Route("api/languages")]
+        public List<LanguageDTO> GetLanguages()
+        {
+            var languageDTOs = db.Language.Select(l => new LanguageDTO
+            {
+                Id = l.Id,
+                Code = l.Code,
+                Name = l.Name
+            }).ToList();
+            return languageDTOs;
+        }
+
         //Vi behöver ha ord på varje språk som vi ska göra prov på
         private bool ShouldBeIncluded(SortedSynonym synonym, string languageCode1, string languageCode2)
         {
