@@ -18,30 +18,31 @@ namespace Glostest.ViewModels
             using (WordModel db = new WordModel())
             {
                 this.WordGroupName = db.WordGroup.Find(wordGroupId).Description;
-                var dbSynonymList = db.Synonyms.OrderBy(i => i.SynonymId);
 
                 //Hämtar en lista med id för alla synonymer som har sökt WordGroupId (borde man kanske kunna modellerat bättre...)
-                var dbWordGroupWords = db.WordGroupSynonym.Where(w => w.WordGroupId == wordGroupId).Select(i => i.SynonymId); 
+                var dbWordGroupWords = db.WordGroupSynonym.Where(w => w.WordGroupId == wordGroupId).Select(i => i.SynonymId).ToList();
+
+                //Hämtar alla synonymer med tillhörande ord som finns i listan över sökt wordgroup  
+                var dbSynonymList = db.Synonyms.Where(i => dbWordGroupWords.Contains(i.SynonymId)).OrderBy(i => i.SynonymId).ToList();
+
+
                 int currentSynonymId = 0;
                 SortedSynonym currentSynonym = null;
 
-                //Hämta synonymer från db och skapa en synonymlista per unik synonymId uppdelad på språk
+                //Skapa en lista som man kan returnera för display och API med alla synonymer och tillhörande ord
                 foreach (var synonym in dbSynonymList)
                 {
-                    if (dbWordGroupWords.Contains(synonym.SynonymId))
-                    { 
-                        if (synonym.SynonymId != currentSynonymId)
-                        {
-                            currentSynonym = new SortedSynonym();
-                            this.SortedSynonyms.Add(currentSynonym);
-                            currentSynonym.Id = synonym.SynonymId;
-                            currentSynonymId = synonym.SynonymId;
-                        }
-                        currentSynonym.AddWord(synonym.Word);
-
-                        if (!languageCountList.Contains(synonym.Word.Language))
-                            languageCountList.Add(synonym.Word.Language);
+                    if (synonym.SynonymId != currentSynonymId)
+                    {
+                        currentSynonym = new SortedSynonym();
+                        this.SortedSynonyms.Add(currentSynonym);
+                        currentSynonym.Id = synonym.SynonymId;
+                        currentSynonymId = synonym.SynonymId;
                     }
+                    currentSynonym.AddWord(synonym.Word);
+
+                    if (!languageCountList.Contains(synonym.Word.Language))
+                        languageCountList.Add(synonym.Word.Language);
                 }
                 this.NumberOfLanguages = languageCountList.Count;
             }
